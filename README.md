@@ -167,6 +167,8 @@ jupyter notebook notebooks/recipe_traffic_prediction.ipynb
 
 The [webapp/](webapp/) folder contains a Django app that puts the selected model in the product manager's hands:
 
+![Web app home page](images/12_webapp_home.png)
+
 | Page | What it does |
 |---|---|
 | **The project** (`/`) | The business brief, the data and how the project answers it |
