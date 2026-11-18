@@ -148,6 +148,7 @@ recipe-site-traffic-prediction/
 ├── presentation/
 │   └── stakeholder_presentation.pptx       # Slide deck for the product manager
 ├── webapp/                                 # Django web app serving the model
+│   ├── Datacamp Final Project WebApp.gif   # Demo recording of the app
 │   ├── recipe_site/                        # Project settings and URLs
 │   └── predictor/                          # Model training/inference, views, templates, tests
 ├── requirements.txt
@@ -167,7 +168,7 @@ jupyter notebook notebooks/recipe_traffic_prediction.ipynb
 
 The [webapp/](webapp/) folder contains a Django app that puts the selected model in the product manager's hands:
 
-![Web app home page](images/12_webapp_home.png)
+![Demo of the Recipe Traffic Predictor web app](webapp/Datacamp%20Final%20Project%20WebApp.gif)
 
 | Page | What it does |
 |---|---|
