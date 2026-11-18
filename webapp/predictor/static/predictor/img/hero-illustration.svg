@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 390" role="img" aria-labelledby="t">
+  <title id="t">The Tasty Bytes homepage features a recipe the model predicts as high traffic, lifting site traffic by up to 40%</title>
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#05192D" flood-opacity=".14"/>
+    </filter>
+  </defs>
+  <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+    <!-- Backdrop -->
+    <ellipse cx="290" cy="200" rx="215" ry="175" fill="#e3fbeb"/>
+
+    <!-- Browser window: the Tasty Bytes homepage -->
+    <g filter="url(#shadow)">
+      <rect x="60" y="40" width="330" height="270" rx="14" fill="#fff"/>
+    </g>
+    <path d="M74 40h302a14 14 0 0 1 14 14v20H60V54a14 14 0 0 1 14-14z" fill="#f0f3f7"/>
+    <circle cx="80" cy="57" r="4" fill="#e0601b"/>
+    <circle cx="94" cy="57" r="4" fill="#FFC844"/>
+    <circle cx="108" cy="57" r="4" fill="#03EF62"/>
+    <rect x="125" y="48" width="180" height="18" rx="9" fill="#fff"/>
+    <text x="140" y="61" font-size="10" fill="#5f6b7a">tastybytes.com</text>
+
+    <text x="80" y="97" font-size="10" font-weight="700" letter-spacing="1" fill="#00a650">RECIPE OF THE DAY</text>
+
+    <!-- Featured recipe photo -->
+    <rect x="80" y="106" width="290" height="112" rx="10" fill="#05192D"/>
+    <ellipse cx="225" cy="196" rx="78" ry="9" fill="#0d2c47"/>
+    <circle cx="188" cy="149" r="11" fill="#e0601b"/>
+    <circle cx="211" cy="143" r="13" fill="#FFC844"/>
+    <circle cx="237" cy="147" r="11" fill="#e0601b"/>
+    <circle cx="259" cy="148" r="9" fill="#b4f5cd"/>
+    <path d="M165 152H285A60 40 0 0 1 165 152Z" fill="#03EF62"/>
+    <path d="M200 132c-5-5 5-9 0-15M225 128c-5-5 5-9 0-15M250 132c-5-5 5-9 0-15" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="2.4" stroke-linecap="round"/>
+
+    <!-- Recipe text and tags -->
+    <rect x="80" y="230" width="170" height="12" rx="6" fill="#05192D"/>
+    <rect x="80" y="250" width="120" height="8" rx="4" fill="#c9d3dc"/>
+    <rect x="80" y="268" width="66" height="20" rx="10" fill="#e3fbeb"/>
+    <text x="91" y="282" font-size="10" font-weight="600" fill="#00843d">Vegetable</text>
+    <rect x="152" y="268" width="70" height="20" rx="10" fill="#f0f3f7"/>
+    <text x="162" y="282" font-size="10" fill="#5f6b7a">4 servings</text>
+    <rect x="296" y="264" width="74" height="26" rx="6" fill="#03EF62"/>
+    <text x="333" y="281" font-size="10" font-weight="700" fill="#05192D" text-anchor="middle">Featured</text>
+
+    <!-- Traffic card -->
+    <g filter="url(#shadow)">
+      <rect x="330" y="16" width="172" height="124" rx="12" fill="#fff"/>
+    </g>
+    <text x="346" y="40" font-size="11" fill="#5f6b7a">Site traffic</text>
+    <text x="346" y="68" font-size="23" font-weight="800" fill="#05192D">+40%</text>
+    <path d="M414 66l10-10m-7 0h7v7" fill="none" stroke="#00a650" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <g>
+      <rect x="348" y="107" width="12" height="18" rx="2" fill="#c9d3dc"/>
+      <rect x="368" y="103" width="12" height="22" rx="2" fill="#c9d3dc"/>
+      <rect x="388" y="105" width="12" height="20" rx="2" fill="#c9d3dc"/>
+      <rect x="408" y="99" width="12" height="26" rx="2" fill="#c9d3dc"/>
+      <rect x="428" y="91" width="12" height="34" rx="2" fill="#03EF62"/>
+      <rect x="448" y="81" width="12" height="44" rx="2" fill="#03EF62"/>
+      <rect x="468" y="69" width="12" height="56" rx="2" fill="#00a650"/>
+    </g>
+
+    <!-- Model prediction card -->
+    <g filter="url(#shadow)">
+      <rect x="20" y="302" width="196" height="74" rx="12" fill="#fff"/>
+    </g>
+    <circle cx="52" cy="339" r="18" fill="#03EF62"/>
+    <path d="M44 339l6 6 11-12" fill="none" stroke="#05192D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="80" y="331" font-size="11" font-weight="700" fill="#05192D">Predicted: High traffic</text>
+    <text x="80" y="348" font-size="10.5" fill="#5f6b7a">P(High) = 94%</text>
+    <rect x="80" y="356" width="120" height="6" rx="3" fill="#eef1f5"/>
+    <rect x="80" y="356" width="113" height="6" rx="3" fill="#00a650"/>
+    <rect x="155" y="353" width="2" height="12" fill="#e0601b"/>
+  </g>
+</svg>

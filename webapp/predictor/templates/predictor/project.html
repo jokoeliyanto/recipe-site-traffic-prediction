@@ -1,8 +1,9 @@
 {% extends "predictor/base.html" %}
-{% load predictor_extras %}
+{% load static predictor_extras %}
 {% block title %}The project · Recipe Traffic Predictor{% endblock %}
 {% block content %}
-<section class="hero">
+<section class="hero hero-split">
+  <div>
   <div class="eyebrow">DataCamp Data Scientist Professional · Practical exam</div>
   <h1>Which recipes should go on the homepage?</h1>
   <p class="lead">Tasty Bytes, a recipe and meal-plan subscription business, features one recipe on its homepage
@@ -13,6 +14,9 @@
     <a class="btn" href="{% url 'predictor:predict' %}">Try the predictor</a>
     <a class="btn btn-secondary" href="{% url 'predictor:insights' %}">See the results</a>
   </div>
+  </div>
+  <img class="hero-art" src="{% static 'predictor/img/hero-illustration.svg' %}"
+       alt="Illustration: the Tasty Bytes homepage features a recipe predicted as high traffic, lifting site traffic by up to 40%">
 </section>
 
 <div class="grid-2">
