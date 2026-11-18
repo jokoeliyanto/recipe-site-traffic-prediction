@@ -154,7 +154,7 @@ recipe-site-traffic-prediction/
 ## How to Run
 
 ```bash
-git clone https://github.com/<your-username>/recipe-site-traffic-prediction.git
+# Clone this repository (use the URL from the green "Code" button), then:
 cd recipe-site-traffic-prediction
 pip install -r requirements.txt
 jupyter notebook notebooks/recipe_traffic_prediction.ipynb
