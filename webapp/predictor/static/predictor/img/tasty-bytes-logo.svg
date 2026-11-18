@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Tasty Bytes logo">
+  <!-- Placeholder logo for the fictional Tasty Bytes company -->
+  <rect width="48" height="48" rx="12" fill="#03EF62"/>
+  <path d="M17 9c-2 2.5 2 4.5 0 7M24 8c-2 2.5 2 4.5 0 7M31 9c-2 2.5 2 4.5 0 7" fill="none" stroke="#05192D" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M8 21h32a16 16 0 0 1-32 0z" fill="#05192D"/>
+  <path d="M14 39h20" stroke="#05192D" stroke-width="3" stroke-linecap="round"/>
+  <path d="M28.5 25.5l3.2 3.2-3.2 3.2M19.5 25.5l-3.2 3.2 3.2 3.2" fill="none" stroke="#03EF62" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
