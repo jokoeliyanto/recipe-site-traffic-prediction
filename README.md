@@ -147,6 +147,9 @@ recipe-site-traffic-prediction/
 ├── images/                                 # Figures used in this README
 ├── presentation/
 │   └── stakeholder_presentation.pptx       # Slide deck for the product manager
+├── webapp/                                 # Django web app serving the model
+│   ├── recipe_site/                        # Project settings and URLs
+│   └── predictor/                          # Model training/inference, views, templates, tests
 ├── requirements.txt
 └── README.md
 ```
@@ -160,9 +163,33 @@ pip install -r requirements.txt
 jupyter notebook notebooks/recipe_traffic_prediction.ipynb
 ```
 
+## Web App (Django)
+
+The [webapp/](webapp/) folder contains a Django app that puts the selected model in the product manager's hands:
+
+| Page | What it does |
+|---|---|
+| **Predict** (`/`) | Enter one recipe and get its probability of high traffic and a recommendation for the homepage |
+| **Batch scoring** (`/batch/`) | Upload a CSV of candidate recipes, view them ranked, and download the predictions |
+| **Homepage picks** (`/rankings/`) | The catalogue ranked by predicted probability, filterable by category |
+| **Model insights** (`/insights/`) | Test metrics, the threshold trade-off, category hit rates and model coefficients |
+| **JSON API** (`POST /api/predict/`) | Accepts a recipe object or a list of them, e.g. `{"category": "Vegetable", "servings": 4}` |
+
+The app retrains the notebook's Logistic Regression with the same cleaning, tuning and ≥80% precision threshold, so its results match the analysis (threshold 0.63, test precision 0.90, ROC-AUC 0.87). Missing nutrition values are imputed with the category median, as in training.
+
+```bash
+cd webapp
+pip install -r requirements.txt
+python manage.py train_model      # optional: the model is also trained on first request
+python manage.py runserver        # http://127.0.0.1:8000
+python manage.py test             # run the test suite
+```
+
+For deployment, set `DJANGO_SECRET_KEY`, `DJANGO_DEBUG=0` and `DJANGO_ALLOWED_HOSTS`, run `python manage.py collectstatic`, and serve `recipe_site.wsgi` with a WSGI server such as gunicorn.
+
 ## Tech Stack
 
-Python · pandas · NumPy · scikit-learn · XGBoost · Matplotlib · seaborn · Jupyter
+Python · pandas · NumPy · scikit-learn · XGBoost · Matplotlib · seaborn · Jupyter · Django
 
 ## Author
 

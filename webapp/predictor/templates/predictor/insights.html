@@ -1,0 +1,74 @@
+{% extends "predictor/base.html" %}
+{% load static predictor_extras %}
+{% block title %}Model insights · Recipe Traffic Predictor{% endblock %}
+{% block content %}
+<section class="intro">
+  <h1>Model insights</h1>
+  <p>Logistic Regression (C = {{ metrics.best_C }}) trained on {{ metrics.n_train }} recipes and evaluated once on
+     {{ metrics.n_test }} held-out recipes.</p>
+</section>
+
+<div class="kpis">
+  <div class="kpi"><div class="kpi-value">{{ metrics.business.precision|pct }}</div>
+    <div class="kpi-label">Homepage hit rate (test precision)</div></div>
+  <div class="kpi"><div class="kpi-value">{{ metrics.baseline_precision|pct }}</div>
+    <div class="kpi-label">Random / manual pick</div></div>
+  <div class="kpi"><div class="kpi-value">{{ metrics.test_roc_auc|floatformat:2 }}</div>
+    <div class="kpi-label">Test ROC-AUC</div></div>
+  <div class="kpi"><div class="kpi-value">{{ metrics.top30_hit_rate|pct }}</div>
+    <div class="kpi-label">Hit rate of top 30 test recipes</div></div>
+</div>
+
+<div class="grid-2">
+  <section class="card">
+    <h2>Threshold trade-off (test set)</h2>
+    <table>
+      <thead><tr><th></th><th>Default 0.50</th><th>Business {{ threshold|floatformat:2 }}</th></tr></thead>
+      <tbody>
+        <tr><td>Precision</td><td>{{ metrics.default.precision|floatformat:2 }}</td><td><strong>{{ metrics.business.precision|floatformat:2 }}</strong></td></tr>
+        <tr><td>Recall</td><td>{{ metrics.default.recall|floatformat:2 }}</td><td>{{ metrics.business.recall|floatformat:2 }}</td></tr>
+        <tr><td>Accuracy</td><td>{{ metrics.default.accuracy|floatformat:2 }}</td><td>{{ metrics.business.accuracy|floatformat:2 }}</td></tr>
+        <tr><td>Recipes flagged High</td><td>{{ metrics.default.flagged }}</td><td>{{ metrics.business.flagged }}</td></tr>
+        <tr><td>Wasted picks (false positives)</td><td>{{ metrics.default.false_positives }}</td><td><strong>{{ metrics.business.false_positives }}</strong></td></tr>
+      </tbody>
+    </table>
+    <p class="muted">The threshold was chosen on out-of-fold training predictions as the lowest value that reaches
+       {{ target_precision|pct }} precision, which keeps recall as high as possible.</p>
+  </section>
+
+  <section class="card">
+    <h2>High-traffic rate by category</h2>
+    {% for s in category_stats %}
+    <div class="hbar">
+      <span class="hbar-label">{{ s.category }}</span>
+      <span class="hbar-track"><span class="hbar-fill{% if s.high_rate >= target_precision %} strong{% endif %}"
+            style="width: {{ s.high_rate|pct_width }}"></span></span>
+      <span class="hbar-value">{{ s.high_rate|pct }} <small class="muted">n={{ s.recipes }}</small></span>
+    </div>
+    {% endfor %}
+  </section>
+</div>
+
+<section class="card">
+  <h2>What drives the prediction (model coefficients)</h2>
+  <p class="muted">Positive values push towards high traffic. Nutrition values are log-transformed and standardised.</p>
+  {% for c in coefficients %}
+  <div class="hbar">
+    <span class="hbar-label">{{ c.feature }}</span>
+    <span class="hbar-track"><span class="hbar-fill {% if c.coef >= 0 %}pos{% else %}neg{% endif %}"
+          style="width: {{ c.width|floatformat:1 }}%"></span></span>
+    <span class="hbar-value">{{ c.coef|floatformat:2 }}</span>
+  </div>
+  {% endfor %}
+</section>
+
+<section class="card">
+  <h2>Figures from the analysis</h2>
+  <div class="figures">
+    <img src="{% static 'figures/02_category_vs_traffic.png' %}" alt="High-traffic rate per category" loading="lazy">
+    <img src="{% static 'figures/08_roc_precision_threshold.png' %}" alt="ROC curve and precision-threshold trade-off" loading="lazy">
+    <img src="{% static 'figures/09_confusion_matrix.png' %}" alt="Confusion matrix" loading="lazy">
+    <img src="{% static 'figures/11_homepage_hit_rate.png' %}" alt="Homepage hit rate" loading="lazy">
+  </div>
+</section>
+{% endblock %}

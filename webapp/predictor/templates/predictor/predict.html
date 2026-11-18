@@ -1,0 +1,63 @@
+{% extends "predictor/base.html" %}
+{% load predictor_extras %}
+{% block title %}Predict · Recipe Traffic Predictor{% endblock %}
+{% block content %}
+<section class="intro">
+  <h1>Will this recipe drive high traffic?</h1>
+  <p>Enter a recipe to estimate the chance it brings <strong>high traffic</strong> when featured on the homepage.
+     Recipes at or above the decision threshold ({{ threshold|pct }}) are recommended. Among recipes the model
+     recommended in testing, {{ metrics.business.precision|pct }} actually drove high traffic.</p>
+</section>
+
+<div class="grid-2">
+  <form method="post" class="card" novalidate>
+    {% csrf_token %}
+    <h2>Recipe details</h2>
+    {% if form.non_field_errors %}<div class="error">{{ form.non_field_errors }}</div>{% endif %}
+    <div class="fields">
+      {% for field in form %}
+      <div class="field{% if field.errors %} has-error{% endif %}">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}
+        {% for e in field.errors %}<small class="error">{{ e }}</small>{% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+    <button type="submit" class="btn">Predict traffic</button>
+  </form>
+
+  <div class="card result {% if result %}result-{{ result.prediction|lower }}{% endif %}">
+    {% if result %}
+      <h2>Prediction</h2>
+      <div class="verdict">
+        {% if result.prediction == "High" %}✅ High traffic: recommended for the homepage
+        {% else %}⚠️ Low traffic: not recommended{% endif %}
+      </div>
+      <div class="big-number">{{ result.probability_high|pct:1 }}</div>
+      <div class="muted">probability of high traffic</div>
+
+      <div class="meter" aria-hidden="true">
+        <div class="meter-fill" style="width: {{ result.probability_high|pct_width }}"></div>
+        <div class="meter-mark" style="left: {{ threshold|pct_width }}" title="Decision threshold"></div>
+      </div>
+      <div class="meter-legend"><span>0%</span><span>threshold {{ threshold|pct }}</span><span>100%</span></div>
+
+      <ul class="facts">
+        <li>Historical high-traffic rate for <strong>{{ form.cleaned_data.category }}</strong>: {{ result.category_rate|pct }}</li>
+        <li>Site-wide average (a random pick): {{ metrics.baseline_precision|pct }}</li>
+        {% if result.imputed %}
+        <li>Imputed with the category median: {{ result.imputed|join:", " }}</li>
+        {% endif %}
+      </ul>
+    {% else %}
+      <h2>How it works</h2>
+      <ul class="facts">
+        <li><strong>Category</strong> is by far the strongest signal. Vegetable, Potato and Pork recipes are almost always popular, while Beverages rarely are.</li>
+        <li>Nutrition values and servings have only a small effect.</li>
+        <li>The threshold is set above 0.5 on purpose: featuring a recipe that turns out to be unpopular wastes a homepage day.</li>
+      </ul>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Recipe Traffic Predictor{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'predictor/style.css' %}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="{% url 'predictor:predict' %}">🍲 Recipe Traffic Predictor</a>
+      <nav>
+        {% with name=request.resolver_match.url_name %}
+        <a href="{% url 'predictor:predict' %}" {% if name == 'predict' %}class="active"{% endif %}>Predict</a>
+        <a href="{% url 'predictor:batch' %}" {% if name == 'batch' %}class="active"{% endif %}>Batch scoring</a>
+        <a href="{% url 'predictor:rankings' %}" {% if name == 'rankings' %}class="active"{% endif %}>Homepage picks</a>
+        <a href="{% url 'predictor:insights' %}" {% if name == 'insights' %}class="active"{% endif %}>Model insights</a>
+        {% endwith %}
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="wrap footer">
+    Logistic Regression · decision threshold {{ threshold|floatformat:2 }}
+    (≥ 80% precision on High traffic) · test precision {{ metrics.business.precision|floatformat:2 }},
+    ROC-AUC {{ metrics.test_roc_auc|floatformat:2 }}.
+    DataCamp Data Scientist Professional practical exam project.
+  </footer>
+</body>
+</html>

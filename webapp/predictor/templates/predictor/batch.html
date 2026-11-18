@@ -1,0 +1,44 @@
+{% extends "predictor/base.html" %}
+{% load predictor_extras %}
+{% block title %}Batch scoring · Recipe Traffic Predictor{% endblock %}
+{% block content %}
+<section class="intro">
+  <h1>Batch scoring</h1>
+  <p>Upload a CSV of candidate recipes to rank them by predicted traffic. The file uses the same format as
+     the original dataset, so <code>servings</code> values like "4 as a snack" are fine, and missing nutrition
+     values are filled with the category median.</p>
+</section>
+
+<form method="post" enctype="multipart/form-data" class="card" novalidate>
+  {% csrf_token %}
+  <div class="field{% if form.file.errors %} has-error{% endif %}">
+    <label for="{{ form.file.id_for_label }}">{{ form.file.label }}</label>
+    {{ form.file }}
+    <small>{{ form.file.help_text }}</small>
+    {% for e in form.file.errors %}<small class="error">{{ e }}</small>{% endfor %}
+  </div>
+  <div class="actions">
+    <button type="submit" class="btn">Score recipes</button>
+    <button type="submit" name="download" value="1" class="btn btn-secondary">Score &amp; download CSV</button>
+  </div>
+</form>
+
+{% if rows %}
+<section class="card">
+  <h2>Results</h2>
+  <p><strong>{{ n_high }}</strong> of {{ total }} recipes are recommended (probability ≥ {{ threshold|pct }}),
+     ranked from most to least likely to drive high traffic.
+     {% if truncated %}Showing the first 200. Download the CSV for all rows.{% endif %}</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr>{% for c in columns %}<th>{{ c }}</th>{% endfor %}</tr></thead>
+      <tbody>
+        {% for row in rows %}
+        <tr>{% for v in row %}<td>{{ v }}</td>{% endfor %}</tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

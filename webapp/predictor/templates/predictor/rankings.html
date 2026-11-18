@@ -1,0 +1,50 @@
+{% extends "predictor/base.html" %}
+{% load predictor_extras %}
+{% block title %}Homepage picks · Recipe Traffic Predictor{% endblock %}
+{% block content %}
+<section class="intro">
+  <h1>Homepage picks</h1>
+  <p>Every recipe in the catalogue ({{ metrics.n_recipes }}), ranked by predicted probability of high traffic.
+     Use this list as a shortlist for the daily homepage feature and rotate across categories.</p>
+</section>
+
+<form method="get" class="card filters">
+  <div class="field">{{ form.category.label_tag }} {{ form.category }}</div>
+  <div class="field">{{ form.top.label_tag }} {{ form.top }}</div>
+  <label class="check">{{ form.above_threshold }} {{ form.above_threshold.label }}</label>
+  <button type="submit" class="btn">Apply</button>
+</form>
+
+<section class="card">
+  <p>{{ n_candidates }} matching recipes. Showing the top {{ rows|length }}.
+    {% if hit_rate is not None %}<strong>{{ hit_rate|pct }}</strong> of the recipes shown actually had high traffic
+    (most of these recipes were also used to train the model, so this overstates performance on new recipes).{% endif %}</p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>#</th><th>Recipe</th><th>Category</th><th>Servings</th><th>Calories</th>
+            <th>Probability</th><th>Prediction</th><th>Actual</th></tr>
+      </thead>
+      <tbody>
+        {% for r in rows %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ r.recipe }}</td>
+          <td>{{ r.category }}</td>
+          <td>{{ r.servings }}</td>
+          <td>{{ r.calories|floatformat:1 }}</td>
+          <td>
+            <div class="mini-bar"><span style="width: {{ r.probability_high|pct_width }}"></span></div>
+            {{ r.probability_high|pct:1 }}
+          </td>
+          <td><span class="pill pill-{{ r.prediction|lower }}">{{ r.prediction }}</span></td>
+          <td><span class="pill pill-{{ r.actual|lower }}">{{ r.actual }}</span></td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="8" class="muted">No recipes match these filters.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}
