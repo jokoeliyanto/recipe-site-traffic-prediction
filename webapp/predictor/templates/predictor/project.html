@@ -1,0 +1,101 @@
+{% extends "predictor/base.html" %}
+{% load predictor_extras %}
+{% block title %}The project · Recipe Traffic Predictor{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="eyebrow">DataCamp Data Scientist Professional · Practical exam</div>
+  <h1>Which recipes should go on the homepage?</h1>
+  <p class="lead">Tasty Bytes, a recipe and meal-plan subscription business, features one recipe on its homepage
+     every day. A popular pick lifts traffic to the rest of the site by <strong>up to 40%</strong>, and more traffic
+     means more subscriptions. This app answers the product team's request with a model that predicts which
+     recipes will drive high traffic.</p>
+  <div class="actions">
+    <a class="btn" href="{% url 'predictor:predict' %}">Try the predictor</a>
+    <a class="btn btn-secondary" href="{% url 'predictor:insights' %}">See the results</a>
+  </div>
+</section>
+
+<div class="grid-2">
+  <article class="card email">
+    <div class="email-head">
+      <div><span>From</span>Product Manager, Recipe Discovery</div>
+      <div><span>To</span>Head of Data Science</div>
+      <div><span>Subject</span>Can you help us predict popular recipes?</div>
+    </div>
+    <p>The product manager picks a favourite recipe from a selection each day and has no reliable way to tell
+       whether it will be popular. They asked the data science team to:</p>
+    <ol class="asks">
+      <li>Predict which recipes will lead to <strong>high traffic</strong>.</li>
+      <li>Correctly predict high-traffic recipes <strong>80% of the time</strong>.</li>
+    </ol>
+    <p class="muted">They also asked for a recommendation on what to do next, whatever the results.</p>
+  </article>
+
+  <article class="card email">
+    <div class="email-head">
+      <div><span>From</span>Head of Data Science</div>
+      <div><span>Subject</span>New project from the product team</div>
+    </div>
+    <p>The brief to the data scientist:</p>
+    <ul class="facts">
+      <li>Predict popular recipes 80% of the time and <strong>minimise the chance of showing unpopular ones</strong>.</li>
+      <li>Validate the data, because it might not match its description.</li>
+      <li>Write a report that explains every decision, and present the findings to the product team in 8–10 slides.</li>
+    </ul>
+  </article>
+</div>
+
+<section class="card">
+  <h2>The data</h2>
+  <p>{{ metrics.n_recipes }} recipes, each with a record of whether site traffic was high when it was featured.</p>
+  <div class="table-wrap">
+    <table class="wrap-cells">
+      <thead><tr><th>Column</th><th>Description</th><th>What validation found</th></tr></thead>
+      <tbody>
+        <tr><td><code>recipe</code></td><td>Unique recipe identifier</td><td>Unique, no duplicates</td></tr>
+        <tr><td><code>calories</code>, <code>carbohydrate</code>, <code>sugar</code>, <code>protein</code></td>
+            <td>Nutrition values per serving</td><td>52 recipes missing all four; imputed with the category median</td></tr>
+        <tr><td><code>category</code></td><td>One of 10 recipe types</td><td>An 11th, undocumented value "Chicken Breast" merged into Chicken</td></tr>
+        <tr><td><code>servings</code></td><td>Number of servings</td><td>Stored as text ("4 as a snack"); converted to a number</td></tr>
+        <tr><td><code>high_traffic</code></td><td>"High" if traffic was high when featured</td><td>Only High was labelled; 373 blanks set to Low</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="card">
+  <h2>How this project answers the brief</h2>
+  <div class="steps">
+    <div class="step"><span class="step-n">1</span><h3>Validate &amp; clean</h3>
+      <p>Every column checked against its description. All {{ metrics.n_recipes }} rows kept.</p></div>
+    <div class="step"><span class="step-n">2</span><h3>Explore</h3>
+      <p>Category is the strongest signal; nutrition and servings matter far less.</p></div>
+    <div class="step"><span class="step-n">3</span><h3>Model</h3>
+      <p>A Logistic Regression baseline against Random Forest, Gradient Boosting and XGBoost, tuned with cross-validation.</p></div>
+    <div class="step"><span class="step-n">4</span><h3>Business threshold</h3>
+      <p>A decision threshold of {{ threshold|floatformat:2 }} is set to reach ≥ 80% precision, so fewer unpopular recipes are shown.</p></div>
+  </div>
+</section>
+
+<div class="kpis">
+  <div class="kpi"><div class="kpi-value">{{ metrics.business.precision|pct }}</div>
+    <div class="kpi-label">High-traffic predictions that were correct (target 80%)</div></div>
+  <div class="kpi"><div class="kpi-value">{{ metrics.baseline_precision|pct }}</div>
+    <div class="kpi-label">Hit rate of a random or manual pick</div></div>
+  <div class="kpi"><div class="kpi-value">{{ metrics.default.false_positives }} → {{ metrics.business.false_positives }}</div>
+    <div class="kpi-label">Wasted homepage picks on the test set</div></div>
+  <div class="kpi"><div class="kpi-value">{{ metrics.test_roc_auc|floatformat:2 }}</div>
+    <div class="kpi-label">Test ROC-AUC</div></div>
+</div>
+
+<section class="card">
+  <h2>Explore the app</h2>
+  <div class="tiles">
+    <a class="tile" href="{% url 'predictor:predict' %}"><h3>Predict</h3><p>Score one recipe and see whether to feature it.</p></a>
+    <a class="tile" href="{% url 'predictor:batch' %}"><h3>Batch scoring</h3><p>Upload a CSV of candidates and download a ranked list.</p></a>
+    <a class="tile" href="{% url 'predictor:rankings' %}"><h3>Homepage picks</h3><p>The catalogue ranked by predicted traffic.</p></a>
+    <a class="tile" href="{% url 'predictor:insights' %}"><h3>Model insights</h3><p>Metrics, the threshold trade-off and what drives traffic.</p></a>
+    <a class="tile" href="{% url 'predictor:certification' %}"><h3>Certification</h3><p>About the exam, the certificate and the author.</p></a>
+  </div>
+</section>
+{% endblock %}

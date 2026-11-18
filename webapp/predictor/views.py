@@ -13,10 +13,26 @@ from .forms import BatchUploadForm, RankingFilterForm, RecipeForm
 MAX_BATCH_ROWS = 10_000
 PREVIEW_ROWS = 200
 
+AUTHOR = {
+    "name": "Joko Eliyanto",
+    "role": "Certified Data Scientist (DataCamp)",
+    "linkedin": "https://www.linkedin.com/in/joko-eliyanto-23a1b6143/",
+    "github": "https://github.com/jokoeliyanto",
+}
+CERTIFICATE = {
+    "title": "Data Scientist Professional",
+    "id": "DS0026305242463",
+    "date": "November 10, 2026",
+}
+
 
 def _common_context():
     bundle = ml.get_bundle()
     return {"threshold": bundle["threshold"], "metrics": bundle["metrics"]}
+
+
+def project_view(request):
+    return render(request, "predictor/project.html", _common_context())
 
 
 def predict_view(request):
@@ -95,6 +111,11 @@ def insights_view(request):
         "coefficients": [{**c, "width": abs(c["coef"]) / max_abs * 100} for c in coefs],
         "target_precision": ml.TARGET_PRECISION,
     })
+
+
+def certification_view(request):
+    return render(request, "predictor/certification.html", {
+        **_common_context(), "author": AUTHOR, "certificate": CERTIFICATE})
 
 
 @csrf_exempt

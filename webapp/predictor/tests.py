@@ -40,7 +40,7 @@ class MLTests(SimpleTestCase):
 
 class ViewTests(SimpleTestCase):
     def test_pages_render(self):
-        for name in ("predict", "batch", "rankings", "insights"):
+        for name in ("project", "predict", "batch", "rankings", "insights", "certification"):
             with self.subTest(page=name):
                 self.assertEqual(self.client.get(reverse(f"predictor:{name}")).status_code, 200)
 

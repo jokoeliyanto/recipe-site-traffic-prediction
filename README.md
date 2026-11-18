@@ -169,10 +169,12 @@ The [webapp/](webapp/) folder contains a Django app that puts the selected model
 
 | Page | What it does |
 |---|---|
-| **Predict** (`/`) | Enter one recipe and get its probability of high traffic and a recommendation for the homepage |
+| **The project** (`/`) | The business brief, the data and how the project answers it |
+| **Predict** (`/predict/`) | Enter one recipe and get its probability of high traffic and a recommendation for the homepage |
 | **Batch scoring** (`/batch/`) | Upload a CSV of candidate recipes, view them ranked, and download the predictions |
 | **Homepage picks** (`/rankings/`) | The catalogue ranked by predicted probability, filterable by category |
 | **Model insights** (`/insights/`) | Test metrics, the threshold trade-off, category hit rates and model coefficients |
+| **Certification** (`/certification/`) | How the project relates to the DataCamp certification, with the certificate, the official badge and author links |
 | **JSON API** (`POST /api/predict/`) | Accepts a recipe object or a list of them, e.g. `{"category": "Vegetable", "servings": 4}` |
 
 The app retrains the notebook's Logistic Regression with the same cleaning, tuning and ≥80% precision threshold, so its results match the analysis (threshold 0.63, test precision 0.90, ROC-AUC 0.87). Missing nutrition values are imputed with the category median, as in training.
@@ -194,6 +196,6 @@ Python · pandas · NumPy · scikit-learn · XGBoost · Matplotlib · seaborn ·
 ## Author
 
 **Joko Eliyanto**
-Data Scientist · DataCamp Data Scientist Professional Certification candidate
+Certified Data Scientist · DataCamp Data Scientist Professional (certificate ID DS0026305242463, November 10, 2026)
 
-<!-- Add your links here, e.g. LinkedIn, DataCamp certificate URL, email -->
+[LinkedIn](https://www.linkedin.com/in/joko-eliyanto-23a1b6143/) · [GitHub](https://github.com/jokoeliyanto)

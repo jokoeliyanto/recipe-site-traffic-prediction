@@ -1,0 +1,62 @@
+{% extends "predictor/base.html" %}
+{% load static %}
+{% block title %}Certification · Recipe Traffic Predictor{% endblock %}
+{% block content %}
+<section class="profile card">
+  <img class="profile-photo" src="{% static 'predictor/img/joko-eliyanto.png' %}" alt="Photo of {{ author.name }}">
+  <div class="profile-body">
+    <div class="eyebrow">About the author</div>
+    <h1>{{ author.name }}</h1>
+    <p class="lead">{{ author.role }}</p>
+    <div class="social">
+      <a class="social-link" href="{{ author.linkedin }}" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+        LinkedIn
+      </a>
+      <a class="social-link" href="{{ author.github }}" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57v-2.02c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22v3.29c0 .32.21.7.82.58A12 12 0 0 0 12 .3"/></svg>
+        GitHub
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="grid-2">
+  <section class="card">
+    <h2>How this project relates to the certification</h2>
+    <p>This project is my submission for the <strong>practical exam</strong> of the
+       <strong>DataCamp {{ certificate.title }} Certification</strong>. DataCamp provides the business scenario and the
+       <em>Recipe Site Traffic</em> dataset; the data validation, analysis, modelling, presentation and recommendations
+       are my own work.</p>
+    <p>The practical exam asks candidates to:</p>
+    <ul class="facts">
+      <li>Validate and clean every column of a real-world dataset.</li>
+      <li>Explore the data with charts and describe the findings.</li>
+      <li>Fit a baseline model and a comparison model, then evaluate them.</li>
+      <li>Define a business metric and estimate its current value.</li>
+      <li>Present the results and recommendations to a non-technical stakeholder.</li>
+    </ul>
+    <p>Passing the exam completed the certification. This web app takes the final model one step further, turning it
+       into a tool the product team could use every day.</p>
+  </section>
+
+  <section class="card badge-card">
+    <img class="badge" src="{% static 'predictor/img/datacamp-ds-badge.png' %}" alt="DataCamp Certified Data Scientist official badge">
+    <h2>Certified Data Scientist</h2>
+    <dl class="cert-meta">
+      <dt>Issued by</dt><dd>DataCamp</dd>
+      <dt>Certified on</dt><dd>{{ certificate.date }}</dd>
+      <dt>Certificate ID</dt><dd><code>{{ certificate.id }}</code></dd>
+    </dl>
+    <a class="btn btn-secondary" href="{% static 'predictor/img/datacamp-ds-certificate.pdf' %}" target="_blank" rel="noopener">Download certificate (PDF)</a>
+  </section>
+</div>
+
+<section class="card">
+  <h2>Certificate</h2>
+  <a href="{% static 'predictor/img/datacamp-ds-certificate.pdf' %}" target="_blank" rel="noopener">
+    <img class="certificate" src="{% static 'predictor/img/datacamp-ds-certificate.png' %}"
+         alt="DataCamp Data Scientist certificate awarded to {{ author.name }}, certified on {{ certificate.date }}">
+  </a>
+</section>
+{% endblock %}

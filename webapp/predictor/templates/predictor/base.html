@@ -9,13 +9,15 @@
 <body>
   <header class="topbar">
     <div class="wrap topbar-inner">
-      <a class="brand" href="{% url 'predictor:predict' %}">🍲 Recipe Traffic Predictor</a>
+      <a class="brand" href="{% url 'predictor:project' %}">🍲 Recipe Traffic Predictor</a>
       <nav>
         {% with name=request.resolver_match.url_name %}
+        <a href="{% url 'predictor:project' %}" {% if name == 'project' %}class="active"{% endif %}>The project</a>
         <a href="{% url 'predictor:predict' %}" {% if name == 'predict' %}class="active"{% endif %}>Predict</a>
         <a href="{% url 'predictor:batch' %}" {% if name == 'batch' %}class="active"{% endif %}>Batch scoring</a>
         <a href="{% url 'predictor:rankings' %}" {% if name == 'rankings' %}class="active"{% endif %}>Homepage picks</a>
         <a href="{% url 'predictor:insights' %}" {% if name == 'insights' %}class="active"{% endif %}>Model insights</a>
+        <a href="{% url 'predictor:certification' %}" {% if name == 'certification' %}class="active"{% endif %}>Certification</a>
         {% endwith %}
       </nav>
     </div>
@@ -29,7 +31,7 @@
     Logistic Regression · decision threshold {{ threshold|floatformat:2 }}
     (≥ 80% precision on High traffic) · test precision {{ metrics.business.precision|floatformat:2 }},
     ROC-AUC {{ metrics.test_roc_auc|floatformat:2 }}.
-    DataCamp Data Scientist Professional practical exam project.
+    <a href="{% url 'predictor:certification' %}">DataCamp Data Scientist Professional practical exam project</a> by Joko Eliyanto.
   </footer>
 </body>
 </html>
